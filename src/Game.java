@@ -5,11 +5,11 @@ import java.io.IOException;
 public class Game {
     private String name;
     boolean isInstalled;
-    private String [] dirsOfGames = new String[]{"src", "res", "savegames", "temp"};
-    private String [] dirsOfSrc = new String[]{"main", "test"};
-    private String [] dirsOfRes = new String[]{"drawables", "vectors", "icons"};
-    private String [] filesOfMain = new String[]{"Main.java", "Utils.java"};
-    private String [] filesOfTemp = new String[]{"temp.txt"};
+
+    private static String [] dirsOfGames = new String[]{"src", "res", "savegames", "temp"};
+    private static String [] dirsOfSrc = new String[]{"main", "test"};
+    private static String [] dirsOfRes = new String[]{"drawables", "vectors", "icons"};
+    private static String [] filesOfMain = new String[]{"Main.java", "Utils.java"};
 
     public Game(String name) {
         this.name = name;
@@ -21,10 +21,13 @@ public class Game {
         for (String dir:dirs) {
             fullPath = dirsPath + dir;
             File newDir = new File(fullPath);
-            if (newDir.mkdir()) log.append(String.format("Каталог \"%s\" успешно создан.\n", fullPath));
-            else {
+            if (newDir.mkdir()) {
+                log.append(String.format("Каталог \"%s\" успешно создан.\n", fullPath));
+            } else {
                 log.append(String.format("Каталог \"%s\" не создан.\n", fullPath));
-                if (isInstalled) isInstalled = false;
+                if (isInstalled) {
+                    isInstalled = false;
+                }
             }
         }
         return log.toString();
@@ -36,12 +39,17 @@ public class Game {
         for (String file:files) {
             fullPath = filesPath + file;
             File newFile = new File(fullPath);
-            try{
-                if (newFile.createNewFile()) log.append(String.format("Файл \"%s\" успешно создан.\n", fullPath));
-                else throw new IOException("File already exists");
+            try {
+                if (newFile.createNewFile()) {
+                    log.append(String.format("Файл \"%s\" успешно создан.\n", fullPath));
+                } else {
+                    throw new IOException("File already exists");
+                }
             } catch (IOException e) {
                 log.append(String.format("Файл \"%s\" не создан: %s.\n", fullPath, e.getMessage()));
-                if (isInstalled) isInstalled = false;
+                if (isInstalled) {
+                    isInstalled = false;
+                }
             }
         }
         return log.toString();
@@ -51,11 +59,16 @@ public class Game {
         String fullPath = logPath + "temp.txt";
         File logFile = new File(fullPath);
         try {
-            if (logFile.createNewFile()) log.append(String.format("Файл \"%s\" успешно создан.\n", fullPath));
-            else throw new IOException("File already exists");
+            if (logFile.createNewFile()) {
+                log.append(String.format("Файл \"%s\" успешно создан.\n", fullPath));
+            } else {
+                throw new IOException("File already exists");
+            }
         } catch (IOException e) {
             log.append(String.format("Файл \"%s\" не создан: %s.\n", fullPath, e.getMessage()));
-            if (isInstalled) isInstalled = false;
+            if (isInstalled) {
+                isInstalled = false;
+            }
         }
         String result = String.format("Установка %s\n" ,
                 isInstalled ? "успешно завершена :)" : "завершена с ошибками :(");
